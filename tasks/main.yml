@@ -66,7 +66,7 @@
       ansible.builtin.git:
         repo: "{{ slurm_config_git_repo }}"
         dest: /etc/slurm/
-        version: master
+        version: "{{ inventory_dir | basename }}"
         force: true
       notify: Restart slurm services
       environment:
