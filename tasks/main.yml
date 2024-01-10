@@ -62,6 +62,33 @@
         name: git
         state: present
 
+    - name: Copy github-service-user key
+      ansible.builtin.copy:
+        content: "{{ slurm_github_identity }}"
+        dest: /root/.ssh/slurm_github_ed25519
+        owner: root
+        group: root
+        mode: '0400'
+      when: slurm_github_identity | length > 0
+
+    - name: Add github-service-user in the ssh configuration
+      community.general.ssh_config:
+        user: root
+        remote_user: git
+        host: "github.com-slurm-config"
+        hostname: "github.com"
+        identity_file: "/root/.ssh/slurm_github_ed25519"
+        state: present
+      when: slurm_github_identity | length > 0
+
+    - name: Add github servers to known hosts
+      ansible.builtin.known_hosts:
+        name: github.com
+        key: github.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl
+        path: /root/.ssh/known_hosts
+        state: present
+      when: slurm_github_identity | length > 0
+
     - name: Deploy slurm config file from a git repo
       ansible.builtin.git:
         repo: "{{ slurm_config_git_repo }}"

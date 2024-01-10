@@ -118,3 +118,6 @@ slurm_packages_worker:
 # Set to true when using slurm cloud scheduling without neutron internal dns
 # check templates/slurm.conf.j2.cloud.example for details on what this var is doing
 slurm_openstack_cloud_reg_addrs: false
+
+# Define github custom access token to access slurm config
+slurm_github_identity: ""
