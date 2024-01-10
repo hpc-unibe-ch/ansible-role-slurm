@@ -1,45 +1,58 @@
+#### AUTH ####
 #
-# Example slurmdbd.conf file.
-#
-# See the slurmdbd.conf man page for more information.
-#
-# Archive info
-#ArchiveJobs=yes
-#ArchiveDir="/tmp"
-#ArchiveSteps=yes
-#ArchiveScript=
-#JobPurge=12
-#StepPurge=1
-#
-# Authentication info
 AuthType=auth/munge
-#AuthInfo=/var/run/munge/munge.socket.2
 #
-# slurmDBD info
-DbdAddr=localhost
-DbdHost=localhost
-DbdPort=6819
+#### SLURM USER ####
+#
 SlurmUser={{ slurm_user[ansible_os_family] }}
-#MessageTimeout=300
-DebugLevel=4
-#DefaultQOS=normal,standby
+#
+#### STORAGE TYPE ####
+#
+StorageType=accounting_storage/mysql
+StorageUser={{ slurm_slurmdbd_mysql_user }}
+StoragePass={{ slurm_slurmdbd_mysql_password }}
+StorageLoc={{ slurm_slurmdbd_mysql_db_name }}
+#
+#### DB HOST ####
+#
+DbdHost=localhost
+DbdAddr=localhost
+DbdPort=6819
+#
+#### LOGGING ####
+#
 LogFile=/var/log/slurm/slurmdbd.log
+#
+#### DEBUGGING ####
+#
+#DebugLevel=4
+#
+#### PID ####
 {% if ansible_os_family == "RedHat" %}
 PidFile=/var/run/slurmdbd.pid
 {% endif %}
 {% if ansible_os_family == "Debian" %}
 PidFile=/run/slurmdbd.pid
 {% endif %}
-#PluginDir=/usr/lib/slurm
-#PrivateData=accounts,users,usage,jobs
-#TrackWCKey=yes
 #
-# Database info
-StorageType=accounting_storage/mysql
-#StorageHost=localhost
-#StoragePort=1234
-StorageLoc={{ slurm_slurmdbd_mysql_db_name }}
-StorageUser={{ slurm_slurmdbd_mysql_user }}
-StoragePass={{ slurm_slurmdbd_mysql_password }}
-
-# vim: syntax=sh
+#### PURGE/ARCHIVE ####
+#
+# Archive records before purging
+DebugFlags=DB_ARCHIVE
+ArchiveDir=/var/lib/slurmdbd.archive
+ArchiveEvents=yes
+ArchiveJobs=yes
+ArchiveResvs=yes
+ArchiveSteps=yes
+ArchiveSuspend=yes
+ArchiveTXN=yes
+ArchiveUsage=yes
+# Purge records from DB that are older than 3 months
+PurgeEventAfter=3
+PurgeJobAfter=3
+PurgeResvAfter=3
+PurgeStepAfter=3
+PurgeSuspendAfter=3
+PurgeTXNAfter=3
+PurgeUsageAfter=3
+#

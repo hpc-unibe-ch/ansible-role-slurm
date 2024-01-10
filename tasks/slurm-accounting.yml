@@ -90,7 +90,6 @@
     owner: "{{ slurm_user[ansible_os_family] }}"
     group: "{{ slurm_group[ansible_os_family] }}"
     mode: 0600
-  when: not slurm_config_git_repo is defined
   notify: Restart slurmdbd service
 
 - name: Enable and start slurmdbd
