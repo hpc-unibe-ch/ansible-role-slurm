@@ -25,3 +25,10 @@
     name: slurmd
     state: restarted
   when: "slurm_workers_group in group_names"
+
+- name: Restart logrotate service
+  ansible.builtin.service:
+    name: logrotate
+    state: started
+    enabled: true
+  when: slurm_logrotate_enabled | bool
