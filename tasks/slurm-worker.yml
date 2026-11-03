@@ -21,14 +21,7 @@
     mode: 0644
   when: slurm_logrotate_enabled | bool
   tags: slurm_logrotate
-
-- name: Start and enable logrotate service
-  ansible.builtin.service:
-    name: logrotate
-    state: started
-    enabled: true
-  when: slurm_logrotate_enabled | bool
-  tags: slurm_logrotate
+  notify: Restart logrotate service
 
 - name: Create /etc/slurm in RedHat based systems
   ansible.builtin.file:
