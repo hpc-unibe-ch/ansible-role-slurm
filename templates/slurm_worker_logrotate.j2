@@ -1,0 +1,10 @@
+/var/log/slurm/slurmd.log {
+    daily
+    rotate {{ slurm_logrotate_rotate | default(7) }}
+    maxsize {{ slurm_logrotate_maxsize | default('1000M') }}
+    missingok
+    notifempty
+    compress
+    delaycompress
+    copytruncate
+}

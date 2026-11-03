@@ -144,6 +144,11 @@ slurm_packages_worker:
     - vte-profile  # avoid error message "bash __vte_prompt_command command not found" on slurm interative shells
   Debian:
     - slurmd
+
+# logrotate settings for slurmd.log in the worker nodes
+slurm_logrotate_enabled: true
+slurm_logrotate_rotate: 7
+slurm_logrotate_maxsize: 1000M
 ```
 
 # Configuring slurm cloud scheduling for OpenStack

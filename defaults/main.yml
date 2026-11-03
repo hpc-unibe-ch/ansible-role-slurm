@@ -121,3 +121,8 @@ slurm_openstack_cloud_reg_addrs: false
 
 # Define github custom access token to access slurm config
 slurm_github_identity: ""
+
+# logrotate settings for slurmd.log in the worker nodes
+slurm_logrotate_enabled: true
+slurm_logrotate_rotate: 7
+slurm_logrotate_maxsize: 1000M
